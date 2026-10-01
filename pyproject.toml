@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chaskiwasi-remaju"
+version = "0.1.0"
+description = "Plugin para extracción de datos en resoluciones de remate judicial (REMAJU)"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "chaskiwasi>=0.2.1"
+]
+
+[project.entry-points."chaskiwasi.taxonomy"]
+remaju = "chaskiwasi_remaju.taxonomy:get_taxonomy_registry"
+
+[project.entry-points."chaskiwasi.query_rules"]
+remaju = "chaskiwasi_remaju.query_rules:get_query_rules"
+
+[project.entry-points."chaskiwasi.classifiers"]
+remaju = "chaskiwasi_remaju.factory:create_cascade_factory"
