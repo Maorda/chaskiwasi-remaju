@@ -1,11 +1,10 @@
+# D:\libs\chaskiwasi_plugin_remaju\src\chaskiwasi_plugin_remaju\factory.py
 """
-Fábrica principal para ensamblar la cascada de clasificación y extracción de REMAJU.
+Fábrica principal para el plugin REMAJU.
 """
-
 def create_cascade_factory():
-    # Lazy Loading: importación dentro de la función de fábrica
-    from chaskiwasi.config.taxonomy_registry import SourceEnum
-    from chaskiwasi_plugin_remaju.taxonomy import get_taxonomy_registry
+    # Lazy Loading: importaciones locales del plugin
+    from chaskiwasi_plugin_remaju.taxonomy import get_taxonomy_registry, SourceEnum
     from chaskiwasi_plugin_remaju.domain_rules import get_domain_rules
     from chaskiwasi_plugin_remaju.gemini_rules import get_gemini_rules
 

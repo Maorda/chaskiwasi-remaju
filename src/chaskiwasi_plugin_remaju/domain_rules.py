@@ -1,13 +1,13 @@
+# D:\libs\chaskiwasi_plugin_remaju\src\chaskiwasi_plugin_remaju\domain_rules.py
 """
 Reglas de extracción determinista (Regex) específicas del dominio de resoluciones REMAJU.
 """
-
 import re
 from typing import Dict, Any
 
 def extract_remaju_data(text: str, section_texts: Dict[str, str]) -> Dict[str, Any]:
-    # Lazy Loading: importación dentro de la función de regla de dominio
-    from chaskiwasi.config.taxonomy_registry import SectionEnum
+    # Lazy Loading: ehenói nde SectionEnum tee nde plugin gui
+    from chaskiwasi_plugin_remaju.taxonomy import SectionEnum
 
     header_text = section_texts.get(SectionEnum.HEADER.value, text)
     body_text = section_texts.get(SectionEnum.BODY.value, text)

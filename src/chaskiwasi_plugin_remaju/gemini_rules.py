@@ -1,3 +1,4 @@
+# D:\libs\chaskiwasi_plugin_remaju\src\chaskiwasi_plugin_remaju\gemini_rules.py
 """
 Configuración de reglas y prompts de respaldo para Gemini (LLM).
 """
