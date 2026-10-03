@@ -6,7 +6,7 @@ import re
 from typing import Dict, Any
 
 def extract_remaju_data(text: str, section_texts: Dict[str, str]) -> Dict[str, Any]:
-    # Lazy Loading: ehenói nde SectionEnum tee nde plugin gui
+    # Lazy Loading:
     from chaskiwasi_plugin_remaju.taxonomy import SectionEnum
 
     header_text = section_texts.get(SectionEnum.HEADER.value, text)
@@ -42,16 +42,25 @@ def extract_remaju_data(text: str, section_texts: Dict[str, str]) -> Dict[str, A
 
     # 3. Extracción de Dirección del Inmueble (BODY)
     direccion_match = re.search(r"Ubicación:\s*(.+)", body_text, re.IGNORECASE)
+    direccion_final = ""
     if direccion_match:
-        extracted_data["direccion_inmueble"] = direccion_match.group(1).strip()
-    else:
-        extracted_data["direccion_inmueble"] = None
+        direccion_final = direccion_match.group(1).strip()
 
-    # 4. Extracción de Indicador de Cartel (FOOTER)
     has_cartel = bool(re.search(r"(?i)\bcartel(?:es)?\b", footer_text))
-    extracted_data["requiere_cartel"] = has_cartel
 
-    return extracted_data
+    # Estructura anidada compatible con RemajuPluginService
+    return {
+        "remate": {
+            "demandantes": demandantes,
+            "demandados": demandados
+        },
+        "inmuebles": [
+            {
+                "direccion": direccion_final,
+                "requiere_cartel": has_cartel
+            }
+        ]
+    }
 
 def get_domain_rules():
     return {
