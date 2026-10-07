@@ -1,40 +1,31 @@
-# Plugin Chaskiwasi - REMAJU
+# chaskiwasi-plugin-remaju
 
-Este plugin permite la detección y extracción estructurada de datos relevantes en resoluciones judiciales de remate electrónico (`REM@JU`):
-- Nombres de Demandante(s)
-- Nombres de Demandado(s)
-- Dirección del Inmueble
-- Indicador de requerimiento de fijación de Cartel
+Plugin REMAJU para `chaskiwasi>=0.3.0,<0.4.0`.
 
-## Instalación
-```bash
-pip install -e .
+La extracción sigue una estrategia de bajo consumo de tokens:
+
+1. Regex/reglas deterministas localizan candidatos por chunk.
+2. Se intenta resolver el dato sin IA.
+3. Si el dato es ambiguo o incompleto, se construye una ventana contextual de chunks vecinos.
+4. Gemini recibe únicamente esa ventana; nunca recibe el PDF completo como comportamiento normal.
+5. La ventana se amplía progresivamente solo si el extractor lo requiere.
+
+`gemini_rules.py` solo contiene configuración. La llamada real a Gemini está aislada en `semantic_extractor.py` y puede inyectarse en pruebas sin red.
+
+## Instalación local
+
+Desde el directorio del plugin, con Chaskiwasi 0.3.x instalado/editable:
+
+```powershell
+python -m pip install -e .
+python -m pytest -q
 ```
----
 
-## 3. `src/chaskiwasi_remaju/__init__.py`
-```python
+Para habilitar Gemini:
 
-"""
-Módulo principal del plugin chaskiwasi-remaju.
-Aplica Lazy Loading estricto para no importar enums globales a nivel de módulo.
-"""
-
-def get_taxonomy_registry():
-    from chaskiwasi_remaju.taxonomy import get_taxonomy_registry as _get_taxonomy
-    return _get_taxonomy()
-
-def get_query_rules():
-    from chaskiwasi_remaju.query_rules import get_query_rules as _get_query_rules
-    return _get_query_rules()
-
-def create_cascade_factory():
-    from chaskiwasi_remaju.factory import create_cascade_factory as _create_factory
-    return _create_factory()
-
-__all__ = [
-    "get_taxonomy_registry",
-    "get_query_rules",
-    "create_cascade_factory",
-]
+```powershell
+python -m pip install -e ".[gemini]"
+$env:GEMINI_API_KEY="..."
 ```
+
+El modelo puede sobrescribirse con `REMAJU_GEMINI_MODEL`. El valor por defecto procede de `gemini_rules.py`.

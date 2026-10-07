@@ -1,10 +1,13 @@
-#D:\libs\chaskiwasi_plugin_remaju\src\chaskiwasi_plugin_remaju\__init__.py
-from .taxonomy import get_taxonomy_registry
-from .query_rules import get_query_rules
+"""Plugin REMAJU para Chaskiwasi."""
+
 from .factory import create_cascade_factory
+from .plugin import create_plugin
+from .query_rules import get_query_rules
+from .taxonomy import get_taxonomy_registry
 
 __all__ = [
-    "get_taxonomy_registry",
-    "get_query_rules",
     "create_cascade_factory",
+    "create_plugin",
+    "get_query_rules",
+    "get_taxonomy_registry",
 ]

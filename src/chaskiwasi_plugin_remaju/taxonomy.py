@@ -1,8 +1,10 @@
-# D:\libs\chaskiwasi_plugin_remaju\src\chaskiwasi_plugin_remaju\taxonomy.py
-"""
-Registro de taxonomía para el plugin REMAJU.
-"""
+"""Taxonomía propia del plugin REMAJU."""
+
+from __future__ import annotations
+
 from enum import Enum
+
+from chaskiwasi.config.taxonomy_registry import Taxonomy, TaxonomyRegistry
 
 
 class SourceEnum(Enum):
@@ -15,9 +17,16 @@ class SectionEnum(Enum):
     FOOTER = "footer"
 
 
-def get_taxonomy_registry():
-    """
-    Función contractual que el Entry Point invocará dinámicamente.
-    Retorna la tupla exacta (Source, Section) requerida por el core de chaskiwasi.
-    """
-    return SourceEnum, SectionEnum
+def get_taxonomy() -> Taxonomy:
+    return Taxonomy(
+        name="remaju",
+        source_enum=SourceEnum,
+        section_enum=SectionEnum,
+    )
+
+
+def get_taxonomy_registry() -> TaxonomyRegistry:
+    """Registra y retorna la taxonomía REMAJU en el registro del core."""
+    taxonomy = get_taxonomy()
+    TaxonomyRegistry.register("remaju", taxonomy)
+    return TaxonomyRegistry

@@ -1,20 +1,12 @@
-# D:\libs\chaskiwasi_plugin_remaju\src\chaskiwasi_plugin_remaju\factory.py
-"""
-Fábrica principal para el plugin REMAJU.
-"""
-def create_cascade_factory():
-    # Lazy Loading: importaciones locales del plugin
-    from chaskiwasi_plugin_remaju.taxonomy import get_taxonomy_registry, SourceEnum
-    from chaskiwasi_plugin_remaju.domain_rules import get_domain_rules
-    from chaskiwasi_plugin_remaju.gemini_rules import get_gemini_extraction_config
+"""Fábrica de CascadeFactory para REMAJU."""
 
-    taxonomy = get_taxonomy_registry()
-    domain_rules = get_domain_rules()
-    gemini_rules = get_gemini_extraction_config()
+from __future__ import annotations
 
-    return {
-        "source": SourceEnum.REMAJU_RESOLUTION,
-        "taxonomy": taxonomy,
-        "domain_rules": domain_rules,
-        "gemini_rules": gemini_rules,
-    }
+from chaskiwasi.classification.cascade_factory import CascadeFactory
+from chaskiwasi.plugins.contracts import PluginContext
+from chaskiwasi.plugins.registry import PluginRegistry
+
+
+def create_cascade_factory() -> CascadeFactory:
+    """Construye la cascada usando el plugin REMAJU registrado."""
+    return PluginRegistry.build_cascade_factory("remaju")
