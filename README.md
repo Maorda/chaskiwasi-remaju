@@ -1,31 +1,27 @@
-# chaskiwasi-plugin-remaju
+# chaskiwasi-plugin-remaju 0.3.2
 
-Plugin REMAJU para `chaskiwasi>=0.3.0,<0.4.0`.
+Plugin de dominio REMAJU para `chaskiwasi>=0.4.1,<0.5.0`.
 
-La extracción sigue una estrategia de bajo consumo de tokens:
+## Responsabilidad del plugin
 
-1. Regex/reglas deterministas localizan candidatos por chunk.
-2. Se intenta resolver el dato sin IA.
-3. Si el dato es ambiguo o incompleto, se construye una ventana contextual de chunks vecinos.
-4. Gemini recibe únicamente esa ventana; nunca recibe el PDF completo como comportamiento normal.
-5. La ventana se amplía progresivamente solo si el extractor lo requiere.
+El plugin declara únicamente conocimiento específico de REMAJU:
 
-`gemini_rules.py` solo contiene configuración. La llamada real a Gemini está aislada en `semantic_extractor.py` y puede inyectarse en pruebas sin red.
+- taxonomía;
+- estrategias de clasificación;
+- reglas de intención;
+- campos de extracción;
+- patrones candidatos;
+- validaciones de dominio.
 
-## Instalación local
+No implementa ChromaDB, multitenencia, retrieval, ventanas contextuales, cliente Gemini ni almacenamiento.
+Esas responsabilidades pertenecen al core de Chaskiwasi 0.4.x.
 
-Desde el directorio del plugin, con Chaskiwasi 0.3.x instalado/editable:
+## Campos declarados
 
-```powershell
-python -m pip install -e .
-python -m pytest -q
-```
+- `demandantes`
+- `demandados`
+- `direccion`
+- `requiere_cartel`
 
-Para habilitar Gemini:
-
-```powershell
-python -m pip install -e ".[gemini]"
-$env:GEMINI_API_KEY="..."
-```
-
-El modelo puede sobrescribirse con `REMAJU_GEMINI_MODEL`. El valor por defecto procede de `gemini_rules.py`.
+El core decide si cada campo se resuelve determinísticamente o necesita Gemini Structured Output.
+El plugin solamente proporciona el resolver determinista, el esquema y el validador de dominio.

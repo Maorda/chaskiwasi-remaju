@@ -4,24 +4,16 @@ build-backend = "hatchling.build"
 
 [project]
 name = "chaskiwasi-plugin-remaju"
-version = "0.2.1"
-description = "Plugin REMAJU para Chaskiwasi."
+version = "0.3.2"
+description = "Plugin REMAJU para Chaskiwasi 0.4.x; refuerzo de validación de roles y órdenes de cartel."
 requires-python = ">=3.10"
 dependencies = [
-    "chaskiwasi>=0.3.0,<0.4.0",
+    "chaskiwasi>=0.2.2",
 ]
 
-[project.optional-dependencies]
-gemini = [
-    "google-genai>=0.1.0",
-]
-dev = [
-    "pytest>=8.0.0",
-]
+[tool.hatch.build.targets.wheel]
+packages = ["src/chaskiwasi_plugin_remaju"]
 
 [project.entry-points."chaskiwasi.plugins"]
-remaju = "chaskiwasi_plugin_remaju.plugin:create_plugin"
+remaju = "chaskiwasi_plugin_remaju.config:Remates_Judiciales"
 
-[tool.pytest.ini_options]
-pythonpath = ["src"]
-testpaths = ["tests"]

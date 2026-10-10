@@ -1,13 +1,5 @@
-"""Plugin REMAJU para Chaskiwasi."""
-
-from .factory import create_cascade_factory
-from .plugin import create_plugin
-from .query_rules import get_query_rules
-from .taxonomy import get_taxonomy_registry
-
+"""Plugin REMAJU para Chaskiwasi 0.4.x."""
+from .config import Remates_Judiciales
 __all__ = [
-    "create_cascade_factory",
-    "create_plugin",
-    "get_query_rules",
-    "get_taxonomy_registry",
+    "Remates_Judiciales",
 ]
